@@ -9,7 +9,9 @@
 """HDLconv: HDL converter"""
 
 import argparse
+import glob
 import os
+import shutil
 import subprocess
 
 
@@ -193,6 +195,9 @@ def run_tool(content):
     except subprocess.CalledProcessError:
         exit(1)
     finally:
+        for cf in glob.glob("*.cf"):
+            os.remove(cf)
+        shutil.rmtree("slpp_all", ignore_errors=True)
         os.chdir(old_dir)
 
 def HDLconv(src, dst):
