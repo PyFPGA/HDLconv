@@ -61,7 +61,7 @@ def get_args(src, dst):
             metavar='TOOL',
             default='slang',
             choices=['slang', 'synlig', 'yosys'],
-            help='backend tool [slang]'
+            help='frontend tool [slang]'
         )
     if src == 'vhdl' and dst == 'vlog':
         parser.add_argument(
@@ -106,15 +106,21 @@ def get_args(src, dst):
             help=f'specify an Include Path {MULTIMSG}'
         )
     parser.add_argument(
-        '-t', '--top',
-        metavar='TOPNAME',
-        help='specify the top-level of the design'
-    )
-    parser.add_argument(
         '--filename',
         metavar='FILENAME',
         default=filename,
         help=f'resulting file name [{filename}]'
+    )
+    parser.add_argument(
+        '-o', '--odir',
+        metavar='PATH',
+        default='results',
+        help='output directory [results]'
+    )
+    parser.add_argument(
+        '-t', '--top',
+        metavar='TOPNAME',
+        help='specify the top-level of the design'
     )
     parser.add_argument(
         'files',
@@ -186,9 +192,9 @@ def get_content(tempname, tempdata):
     jinja_template = jinja_env.get_template(f'{tempname}.jinja')
     return jinja_template.render(tempdata)
 
-def run_tool(content, filename):
+def run_tool(content, odir, filename):
     old_dir = Path.cwd()
-    new_dir = Path('temp')
+    new_dir = Path(odir)
     new_dir.mkdir(parents=True, exist_ok=True)
     chdir(new_dir)
     script = Path(filename).with_suffix(".sh")
@@ -218,4 +224,4 @@ def HDLconv(src, dst):
     data = get_data(src, dst, args)
     template = get_template(src, dst, args)
     content = get_content(template, data)
-    run_tool(content, args.filename)
+    run_tool(content, args.odir, args.filename)

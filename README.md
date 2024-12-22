@@ -11,7 +11,7 @@ It relies on [Docker](https://docs.docker.com/get-docker) and [PyFPGA containers
 
 ```
 usage: vhdl2vhdl [-h] [-v] [--generic GENERIC VALUE] [--arch ARCH]
-                 [-t TOPNAME] [--filename FILENAME]
+                 [--filename FILENAME] [-o PATH] [-t TOPNAME]
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to VHDL
@@ -26,14 +26,15 @@ optional arguments:
                         specify a top-level Generic (can be specified multiple
                         times)
   --arch ARCH           specify a top-level Architecture
+  --filename FILENAME   resulting file name [<TOPNAME>.vhdl]
+  -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
-  --filename FILENAME   resulting file name [<TOPNAME>.vhdl]
 ```
 
 ```
 usage: vhdl2vlog [-h] [-v] [--backend TOOL] [--generic GENERIC VALUE]
-                 [--arch ARCH] [-t TOPNAME] [--filename FILENAME]
+                 [--arch ARCH] [--filename FILENAME] [-o PATH] [-t TOPNAME]
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to Verilog
@@ -49,15 +50,16 @@ optional arguments:
                         specify a top-level Generic (can be specified multiple
                         times)
   --arch ARCH           specify a top-level Architecture
+  --filename FILENAME   resulting file name [<TOPNAME>.v]
+  -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
-  --filename FILENAME   resulting file name [<TOPNAME>.v]
 ```
 
 ```
 usage: slog2vlog [-h] [-v] [--frontend TOOL] [--param PARAM VALUE]
-                 [--define DEFINE VALUE] [--include PATH] [-t TOPNAME]
-                 [--filename FILENAME]
+                 [--define DEFINE VALUE] [--include PATH]
+                 [--filename FILENAME] [-o PATH] [-t TOPNAME]
                  FILE [FILE ...]
 
 SystemVerilog to Verilog
@@ -68,14 +70,15 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
-  --frontend TOOL       backend tool [slang]
+  --frontend TOOL       frontend tool [slang]
   --param PARAM VALUE   specify a top-level Parameter (can be specified
                         multiple times)
   --define DEFINE VALUE
                         specify a Define (can be specified multiple times)
   --include PATH        specify an Include Path (can be specified multiple
                         times)
+  --filename FILENAME   resulting file name [<TOPNAME>.v]
+  -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
-  --filename FILENAME   resulting file name [<TOPNAME>.v]
 ```
