@@ -13,6 +13,7 @@ import glob
 import os
 import shutil
 import subprocess
+import sys
 
 
 from jinja2 import Environment, FileSystemLoader
@@ -26,6 +27,15 @@ LANGS = {
     'vlog': 'Verilog',
     'slog': 'SystemVerilog'
 }
+
+
+def check_docker():
+    if shutil.which('docker') is None:
+        print(
+            'Docker is not installed. Installation instructions at: '
+            'https://docs.docker.com/engine/install'
+        )
+        sys.exit(1)
 
 def get_args(src, dst):
     """Get arguments from the CLI"""
@@ -44,11 +54,6 @@ def get_args(src, dst):
         '-v', '--version',
         action='version',
         version=f'HDLconv - v{version}'
-    )
-    parser.add_argument(
-        '--debug',
-        action='store_true',
-        help='Enables debug mode'
     )
     if src == 'slog':
         parser.add_argument(
@@ -193,7 +198,7 @@ def run_tool(content):
     try:
         subprocess.run(command, shell=True, check=True, text=True)
     except subprocess.CalledProcessError:
-        exit(1)
+        sys.exit(1)
     finally:
         for cf in glob.glob("*.cf"):
             os.remove(cf)
@@ -201,10 +206,9 @@ def run_tool(content):
         os.chdir(old_dir)
 
 def HDLconv(src, dst):
+    check_docker()
     args = get_args(src, dst)
     data = get_data(src, dst, args)
     template = get_template(src, dst, args)
     content = get_content(template, data)
-    if args.debug:
-        print(content)
     run_tool(content)
