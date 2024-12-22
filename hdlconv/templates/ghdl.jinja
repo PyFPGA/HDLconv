@@ -15,5 +15,5 @@ $DOCKER /bin/bash -c "
 {%- for file, lib in files.items() %}
 ghdl -a {{ flags }}{% if lib %} --work={{ lib }}{% endif %} {{ file }}
 {%- endfor %}
-ghdl synth --out={{ hdl }} -o={{ output }} {{ flags }} {% if generics %}{% for key, value in generics.items() %}-g{{ key }}={{ value }} {% endfor %}{% endif %}{{ top }}{% if arch %} {{ arch }}{% endif %}
+ghdl synth --out={{ hdl }} -o={{ filename }} {{ flags }} {% if generics %}{% for key, value in generics.items() %}-g{{ key }}={{ value }} {% endfor %}{% endif %}{{ top }}{% if arch %} {{ arch }}{% endif %}
 "

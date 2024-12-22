@@ -10,8 +10,8 @@ It relies on [Docker](https://docs.docker.com/get-docker) and [PyFPGA containers
 # Documentation
 
 ```
-usage: vhdl2vhdl [-h] [-v] [--debug] [--generic GENERIC VALUE] [--arch ARCH]
-                 [-t NAME] [-o PATH]
+usage: vhdl2vhdl [-h] [-v] [--generic GENERIC VALUE] [--arch ARCH]
+                 [-t TOPNAME] [--filename FILENAME]
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to VHDL
@@ -22,19 +22,18 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
-  --debug               Enables debug mode
   --generic GENERIC VALUE
                         specify a top-level Generic (can be specified multiple
                         times)
   --arch ARCH           specify a top-level Architecture
-  -t NAME, --top NAME   specify the top-level of the design
-  -o PATH, --output PATH
-                        output file [converted.vhdl]
+  -t TOPNAME, --top TOPNAME
+                        specify the top-level of the design
+  --filename FILENAME   resulting file name [<TOPNAME>.vhdl]
 ```
 
 ```
-usage: vhdl2vlog [-h] [-v] [--debug] [--backend TOOL]
-                 [--generic GENERIC VALUE] [--arch ARCH] [-t NAME] [-o PATH]
+usage: vhdl2vlog [-h] [-v] [--backend TOOL] [--generic GENERIC VALUE]
+                 [--arch ARCH] [-t TOPNAME] [--filename FILENAME]
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to Verilog
@@ -45,20 +44,20 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
-  --debug               Enables debug mode
   --backend TOOL        backend tool [ghdl]
   --generic GENERIC VALUE
                         specify a top-level Generic (can be specified multiple
                         times)
   --arch ARCH           specify a top-level Architecture
-  -t NAME, --top NAME   specify the top-level of the design
-  -o PATH, --output PATH
-                        output file [converted.v]
+  -t TOPNAME, --top TOPNAME
+                        specify the top-level of the design
+  --filename FILENAME   resulting file name [<TOPNAME>.v]
 ```
 
 ```
-usage: slog2vlog [-h] [-v] [--debug] [--frontend TOOL] [--param PARAM VALUE]
-                 [--define DEFINE VALUE] [--include PATH] [-t NAME] [-o PATH]
+usage: slog2vlog [-h] [-v] [--frontend TOOL] [--param PARAM VALUE]
+                 [--define DEFINE VALUE] [--include PATH] [-t TOPNAME]
+                 [--filename FILENAME]
                  FILE [FILE ...]
 
 SystemVerilog to Verilog
@@ -69,7 +68,6 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
-  --debug               Enables debug mode
   --frontend TOOL       backend tool [slang]
   --param PARAM VALUE   specify a top-level Parameter (can be specified
                         multiple times)
@@ -77,7 +75,7 @@ optional arguments:
                         specify a Define (can be specified multiple times)
   --include PATH        specify an Include Path (can be specified multiple
                         times)
-  -t NAME, --top NAME   specify the top-level of the design
-  -o PATH, --output PATH
-                        output file [converted.v]
+  -t TOPNAME, --top TOPNAME
+                        specify the top-level of the design
+  --filename FILENAME   resulting file name [<TOPNAME>.v]
 ```

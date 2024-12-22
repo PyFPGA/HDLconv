@@ -49,7 +49,7 @@ def get_args(src, dst):
     else:
         metavar = 'FILE'
         help = 'System Verilog file/s'
-    output = 'converted.vhdl' if dst == 'vhdl' else 'converted.v'
+    filename = '<TOPNAME>.vhdl' if dst == 'vhdl' else '<TOPNAME>.v'
     parser.add_argument(
         '-v', '--version',
         action='version',
@@ -107,14 +107,14 @@ def get_args(src, dst):
         )
     parser.add_argument(
         '-t', '--top',
-        metavar='NAME',
+        metavar='TOPNAME',
         help='specify the top-level of the design'
     )
     parser.add_argument(
-        '-o', '--output',
-        metavar='PATH',
-        default=output,
-        help=f'output file [{output}]'
+        '--filename',
+        metavar='FILENAME',
+        default=filename,
+        help=f'resulting file name [{filename}]'
     )
     parser.add_argument(
         'files',
@@ -133,7 +133,7 @@ def get_data(src, dst, args):
     data = {}
     data['hdl'] = 'raw-vhdl' if dst == 'vhdl' else 'verilog'
     data['top'] = args.top
-    data['output'] = args.output
+    data['filename'] = args.filename
     if 'arch' in args and args.arch:
         data['arch'] = args.arch
     if 'generic' in args and args.generic:
@@ -186,15 +186,15 @@ def get_content(tempname, tempdata):
     jinja_template = jinja_env.get_template(f'{tempname}.jinja')
     return jinja_template.render(tempdata)
 
-def run_tool(content):
+def run_tool(content, filename):
     old_dir = Path.cwd()
     new_dir = Path('temp')
     new_dir.mkdir(parents=True, exist_ok=True)
     chdir(new_dir)
-    filename = 'script.sh'
-    with open(filename, 'w', encoding='utf-8') as fhandler:
+    script = Path(filename).with_suffix(".sh")
+    with open(script, 'w', encoding='utf-8') as fhandler:
         fhandler.write(content)
-    command = f'bash {filename}'
+    command = f'bash {script}'
     try:
         subprocess.run(command, shell=True, check=True, text=True)
     except subprocess.CalledProcessError:
@@ -211,4 +211,4 @@ def HDLconv(src, dst):
     data = get_data(src, dst, args)
     template = get_template(src, dst, args)
     content = get_content(template, data)
-    run_tool(content)
+    run_tool(content, args.filename)

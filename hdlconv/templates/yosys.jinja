@@ -16,5 +16,5 @@ $DOCKER yosys -Q -p '
 read_verilog -sv -defer {{ files | join(' ') }}
 {% if params %}chparam{% for key, value in params.items() %} -set {{ key }} {{ value }}{% endfor %}{% endif %}
 hierarchy -top {{ top }}
-write_verilog -noattr {{ output }}
+write_verilog -noattr {{ filename }}
 '
