@@ -73,40 +73,40 @@ def get_args(src, dst):
         )
     if src == 'vhdl':
         parser.add_argument(
-            '--generic',
+            '-g', '--generic',
             metavar=('GENERIC', 'VALUE'),
             action='append',
             nargs=2,
             help=f'specify a top-level Generic {MULTIMSG}'
         )
         parser.add_argument(
-            '--arch',
+            '-a', '--arch',
             metavar='ARCH',
             help='specify a top-level Architecture'
         )
     else:
         parser.add_argument(
-            '--param',
+            '-p', '--param',
             metavar=('PARAM', 'VALUE'),
             action='append',
             nargs=2,
             help=f'specify a top-level Parameter {MULTIMSG}'
         )
         parser.add_argument(
-            '--define',
+            '-d', '--define',
             metavar=('DEFINE', 'VALUE'),
             action='append',
             nargs=2,
             help=f'specify a Define {MULTIMSG}'
         )
         parser.add_argument(
-            '--include',
+            '-i', '--include',
             metavar='PATH',
             action='append',
             help=f'specify an Include Path {MULTIMSG}'
         )
     parser.add_argument(
-        '--filename',
+        '-f', '--filename',
         metavar='FILENAME',
         default=filename,
         help=f'resulting file name [{filename}]'
