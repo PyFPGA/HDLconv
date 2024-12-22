@@ -17,6 +17,6 @@ ghdl -a {{ flags }}{% if lib %} --work={{ lib }}{% endif %} {{ file }}
 {%- endfor %}
 yosys -Q -m ghdl -p '
 ghdl {{ flags }} {% if generics %}{% for key, value in generics.items() %}-g{{ key }}={{ value }} {% endfor %}{% endif %}{{ top }}{% if arch %} {{ arch }}{% endif %}
-write_verilog -noattr {{ output }}
+write_verilog -noattr {{ filename }}
 '
 "
