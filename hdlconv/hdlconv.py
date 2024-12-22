@@ -32,7 +32,7 @@ LANGS = {
 def check_docker():
     if shutil.which('docker') is None:
         print(
-            'Docker is not installed. Installation instructions at: '
+            'ERROR: Docker is not installed. Instructions at: '
             'https://docs.docker.com/engine/install'
         )
         sys.exit(1)
@@ -196,8 +196,15 @@ def run_tool(content, filename):
         fhandler.write(content)
     command = f'bash {script}'
     try:
-        subprocess.run(command, shell=True, check=True, text=True)
+        log = Path(filename).with_suffix(".log")
+        with open(log, 'w', encoding='utf-8') as fhandler:
+            subprocess.run(
+                command, shell=True, check=True, text=True,
+                stdout=fhandler, stderr=fhandler
+            )
+        print(f'INFO: {filename} created')
     except subprocess.CalledProcessError:
+        print(f'ERROR: check {log} for details')
         sys.exit(1)
     finally:
         for cf in glob.glob("*.cf"):
