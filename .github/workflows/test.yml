@@ -9,5 +9,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+    - name: Check Install
+      run: make venv
     - name: Run tests
-      run: cd tests && bash run.sh
+      run: make test
