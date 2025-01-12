@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PYTHONPATH=$(pwd)
+
 file="README.md"
 pattern="# Documentation"
 
@@ -34,15 +36,3 @@ echo ""           >> $file
 echo '```'        >> $file
 echo "$slog2vlog" >> $file
 echo '```'        >> $file
-
-#vhdl2vhdl=$(printf '%s' "$vhdl2vhdl" | sed 's/\[/\\[/g' | sed 's/\]/\\]/g' | sed 's/\(/\\(/g' | sed 's/\)/\\)/g')
-#vhdl2vlog=$(printf '%s' "$vhdl2vlog" | sed 's/\[/\\[/g' | sed 's/\]/\\]/g' | sed 's/\(/\\(/g' | sed 's/\)/\\)/g')
-#slog2vlog=$(printf '%s' "$slog2vlog" | sed 's/\[/\\[/g' | sed 's/\]/\\]/g' | sed 's/\(/\\(/g' | sed 's/\)/\\)/g')
-
-#echo "$vhdl2vhdl"
-#echo "$vhdl2vlog"
-#echo "$slog2vlog"
-
-#sed -i '/^```vhdl2vhdl/,/^```$/c\```vhdl2vhdl\n'"$vhdl2vhdl"'\n```' README.md
-#sed -i '/^```vhdl2vlog/,/^```$/c\```vhdl2vlog\n'"$vhdl2vlog"'\n```' README.md
-#sed -i '/^```slog2vlog/,/^```$/c\```slog2vlog\n'"$slog2vlog"'\n```' README.md
