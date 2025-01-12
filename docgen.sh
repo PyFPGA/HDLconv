@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PYTHONPATH=$(pwd)
+
 file="README.md"
 pattern="# Documentation"
 

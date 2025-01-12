@@ -1,3 +1,6 @@
+__pycache__
+build
 ignore
 results
-__pycache__
+venv
+*.egg-info
