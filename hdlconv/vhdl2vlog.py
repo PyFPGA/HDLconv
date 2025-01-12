@@ -1,3 +1,5 @@
-from hdlconv.core import HDLconv
+"""vhdl2vlog conversion"""
 
-HDLconv('vhdl', 'vlog')
+from hdlconv.core import hdlconv
+
+hdlconv('vhdl', 'vlog')

@@ -16,9 +16,8 @@ import subprocess
 import sys
 
 
-from jinja2 import Environment, FileSystemLoader
-from os import chdir
 from pathlib import Path
+from jinja2 import Environment, FileSystemLoader
 from hdlconv import __version__ as version
 
 
@@ -30,6 +29,7 @@ LANGS = {
 
 
 def check_docker():
+    """Check if docker is installed"""
     if shutil.which('docker') is None:
         print(
             'ERROR: Docker is not installed. Instructions at: '
@@ -37,18 +37,19 @@ def check_docker():
         )
         sys.exit(1)
 
+
 def get_args(src, dst):
     """Get arguments from the CLI"""
-    MULTIMSG = '(can be specified multiple times)'
+    multimsg = '(can be specified multiple times)'
     prog = f'{src}2{dst}'
     description = f'{LANGS[src]} to {LANGS[dst]}'
     parser = argparse.ArgumentParser(prog=prog, description=description)
     if src == 'vhdl':
         metavar = 'FILE[,LIBRARY]'
-        help = 'VHDL file/s (with an optional LIBRARY specification)'
+        helpmsg = 'VHDL file/s (with an optional LIBRARY specification)'
     else:
         metavar = 'FILE'
-        help = 'System Verilog file/s'
+        helpmsg = 'System Verilog file/s'
     filename = '<TOPNAME>.vhdl' if dst == 'vhdl' else '<TOPNAME>.v'
     parser.add_argument(
         '-v', '--version',
@@ -77,7 +78,7 @@ def get_args(src, dst):
             metavar=('GENERIC', 'VALUE'),
             action='append',
             nargs=2,
-            help=f'specify a top-level Generic {MULTIMSG}'
+            help=f'specify a top-level Generic {multimsg}'
         )
         parser.add_argument(
             '-a', '--arch',
@@ -90,20 +91,20 @@ def get_args(src, dst):
             metavar=('PARAM', 'VALUE'),
             action='append',
             nargs=2,
-            help=f'specify a top-level Parameter {MULTIMSG}'
+            help=f'specify a top-level Parameter {multimsg}'
         )
         parser.add_argument(
             '-d', '--define',
             metavar=('DEFINE', 'VALUE'),
             action='append',
             nargs=2,
-            help=f'specify a Define {MULTIMSG}'
+            help=f'specify a Define {multimsg}'
         )
         parser.add_argument(
             '-i', '--include',
             metavar='PATH',
             action='append',
-            help=f'specify an Include Path {MULTIMSG}'
+            help=f'specify an Include Path {multimsg}'
         )
     parser.add_argument(
         '-f', '--filename',
@@ -126,11 +127,13 @@ def get_args(src, dst):
         'files',
         metavar=metavar,
         nargs='+',
-        help=help
+        help=helpmsg
     )
     return parser.parse_args()
 
+
 def get_data(src, dst, args):
+    # pylint: disable=too-many-branches
     """Get data from arguments.
 
     :raises NotADirectoryError: when a directory is not found
@@ -172,7 +175,9 @@ def get_data(src, dst, args):
             data.setdefault('files', []).append(file)
     return data
 
+
 def get_template(src, dst, args):
+    """Get template to be rendered"""
     template = 'ghdl'
     if src == 'slog':
         if args.frontend == 'slang':
@@ -184,19 +189,22 @@ def get_template(src, dst, args):
             template = 'ghdl-yosys'
     return template
 
+
 def get_content(tempname, tempdata):
-    """Get script to run."""
+    """Get rendered template"""
     tempdir = Path(__file__).parent.joinpath('templates')
     jinja_file_loader = FileSystemLoader(str(tempdir))
     jinja_env = Environment(loader=jinja_file_loader)
     jinja_template = jinja_env.get_template(f'{tempname}.jinja')
     return jinja_template.render(tempdata)
 
+
 def run_tool(content, odir, filename):
+    """Run the underlaying tool"""
     old_dir = Path.cwd()
     new_dir = Path(odir)
     new_dir.mkdir(parents=True, exist_ok=True)
-    chdir(new_dir)
+    os.chdir(new_dir)
     script = Path(filename).with_suffix(".sh")
     with open(script, 'w', encoding='utf-8') as fhandler:
         fhandler.write(content)
@@ -213,12 +221,14 @@ def run_tool(content, odir, filename):
         print(f'ERROR: check {log} for details')
         sys.exit(1)
     finally:
-        for cf in glob.glob("*.cf"):
-            os.remove(cf)
+        for ghdlcf in glob.glob("*.cf"):
+            os.remove(ghdlcf)
         shutil.rmtree("slpp_all", ignore_errors=True)
         os.chdir(old_dir)
 
-def HDLconv(src, dst):
+
+def hdlconv(src, dst):
+    """HDL conversion entry-point"""
     check_docker()
     args = get_args(src, dst)
     data = get_data(src, dst, args)
