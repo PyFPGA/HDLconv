@@ -1,3 +1,5 @@
-from hdlconv.core import HDLconv
+"""slog2vlog conversion"""
 
-HDLconv('slog', 'vlog')
+from hdlconv.core import hdlconv
+
+hdlconv('slog', 'vlog')
