@@ -19,7 +19,7 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 from os import chdir
 from pathlib import Path
-from __init__ import __version__ as version
+from hdlconv import __version__ as version
 
 
 LANGS = {
@@ -53,7 +53,7 @@ def get_args(src, dst):
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version=f'HDLconv - v{version}'
+        version=f'HDLconv {prog} - v{version}'
     )
     if src == 'slog':
         parser.add_argument(
