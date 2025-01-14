@@ -4,6 +4,12 @@ set -e
 
 export PYTHONPATH=$(pwd)/..
 
+python3 ../hdlconv/vhdl2vhdl.py --top Counter hdl/vhdl/counter.vhdl
+
+python3 ../hdlconv/vhdl2vlog.py --top Counter hdl/vhdl/counter.vhdl
+
+python3 ../hdlconv/slog2vlog.py --top Counter hdl/slog/counter.sv
+
 python3 ../hdlconv/vhdl2vhdl.py --filename conv1.vhdl \
   --top Counter hdl/vhdl/counter.vhdl
 

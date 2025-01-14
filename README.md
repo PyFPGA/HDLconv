@@ -11,7 +11,7 @@ It relies on [Docker](https://docs.docker.com/get-docker) and [PyFPGA containers
 
 ```
 usage: vhdl2vhdl [-h] [-v] [-g GENERIC VALUE] [-a ARCH] [-f FILENAME]
-                 [-o PATH] [-t TOPNAME]
+                 [-o PATH] -t TOPNAME
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to VHDL
@@ -27,7 +27,7 @@ optional arguments:
                         times)
   -a ARCH, --arch ARCH  specify a top-level Architecture
   -f FILENAME, --filename FILENAME
-                        resulting file name [<TOPNAME>.vhdl]
+                        resulting file name [<TOPNAME>.<EXT>]
   -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
@@ -35,7 +35,7 @@ optional arguments:
 
 ```
 usage: vhdl2vlog [-h] [-v] [--backend TOOL] [-g GENERIC VALUE] [-a ARCH]
-                 [-f FILENAME] [-o PATH] [-t TOPNAME]
+                 [-f FILENAME] [-o PATH] -t TOPNAME
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to Verilog
@@ -52,7 +52,7 @@ optional arguments:
                         times)
   -a ARCH, --arch ARCH  specify a top-level Architecture
   -f FILENAME, --filename FILENAME
-                        resulting file name [<TOPNAME>.v]
+                        resulting file name [<TOPNAME>.<EXT>]
   -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
@@ -60,8 +60,8 @@ optional arguments:
 
 ```
 usage: slog2vlog [-h] [-v] [--frontend TOOL] [-p PARAM VALUE]
-                 [-d DEFINE VALUE] [-i PATH] [-f FILENAME] [-o PATH]
-                 [-t TOPNAME]
+                 [-d DEFINE VALUE] [-i PATH] [-f FILENAME] [-o PATH] -t
+                 TOPNAME
                  FILE [FILE ...]
 
 SystemVerilog to Verilog
@@ -82,7 +82,7 @@ optional arguments:
                         specify an Include Path (can be specified multiple
                         times)
   -f FILENAME, --filename FILENAME
-                        resulting file name [<TOPNAME>.v]
+                        resulting file name [<TOPNAME>.<EXT>]
   -o PATH, --odir PATH  output directory [results]
   -t TOPNAME, --top TOPNAME
                         specify the top-level of the design
