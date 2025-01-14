@@ -50,7 +50,6 @@ def get_args(src, dst):
     else:
         metavar = 'FILE'
         helpmsg = 'System Verilog file/s'
-    filename = '<TOPNAME>.vhdl' if dst == 'vhdl' else '<TOPNAME>.v'
     parser.add_argument(
         '-v', '--version',
         action='version',
@@ -109,8 +108,7 @@ def get_args(src, dst):
     parser.add_argument(
         '-f', '--filename',
         metavar='FILENAME',
-        default=filename,
-        help=f'resulting file name [{filename}]'
+        help='resulting file name [<TOPNAME>.<EXT>]'
     )
     parser.add_argument(
         '-o', '--odir',
@@ -121,7 +119,8 @@ def get_args(src, dst):
     parser.add_argument(
         '-t', '--top',
         metavar='TOPNAME',
-        help='specify the top-level of the design'
+        help='specify the top-level of the design',
+        required=True
     )
     parser.add_argument(
         'files',
@@ -231,6 +230,9 @@ def hdlconv(src, dst):
     """HDL conversion entry-point"""
     check_docker()
     args = get_args(src, dst)
+    if args.filename is None:
+        args.filename = args.top.lower()
+        args.filename += '.vhdl' if dst == 'vhdl' else '.v'
     data = get_data(src, dst, args)
     template = get_template(src, dst, args)
     content = get_content(template, data)
