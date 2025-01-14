@@ -1,2 +1,2 @@
 CONTAINER="ghcr.io/pyfpga/synthesis"
-DOCKER="docker run --rm -v $HOME:$HOME -w $PWD --user $(id -u):$(id -g) $CONTAINER"
+DOCKER="docker run --rm -v $HOME:$HOME -v $PWD:$PWD -w $PWD --user $(id -u):$(id -g) $CONTAINER"
