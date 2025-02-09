@@ -172,6 +172,8 @@ def get_data(src, dst, args):
             if not file.exists():
                 raise FileNotFoundError(file)
             data.setdefault('files', []).append(file)
+        data.setdefault('volumes', set()).add(Path('/') / file.parts[1])
+    data['volumes'] = list(data['volumes'])
     return data
 
 
