@@ -5,11 +5,31 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: ['ubuntu', 'windows']
+        pyver: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        exclude:
+          - os: 'windows'
+            pyver: '3.8'
+          - os: 'windows'
+            pyver: '3.9'
+          - os: 'windows'
+            pyver: '3.10'
+          - os: 'windows'
+            pyver: '3.11'
+          - os: 'windows'
+            pyver: '3.12'
+    runs-on: ${{ matrix.os }}-latest
+    name: ${{ matrix.os }} | ${{ matrix.pyver }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Check Install
-      run: make venv
+    - name: Set up Python ${{ matrix.pyver }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.pyver }}
+    - name: Install
+      run: pip install .
     - name: Run tests
       run: make test

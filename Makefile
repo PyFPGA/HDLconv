@@ -15,9 +15,6 @@ lint:
 test:
 	cd tests && bash run.sh
 
-venv:
-	bash venv.sh
-
 clean:
 	py3clean .
 	rm -fr .pytest_cache
