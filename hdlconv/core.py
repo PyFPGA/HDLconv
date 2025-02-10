@@ -55,6 +55,11 @@ def get_args(src, dst):
         action='version',
         version=f'HDLconv {prog} - v{version}'
     )
+    parser.add_argument(
+        '--no-docker',
+        action='store_true',
+        help='do not use Docker (use system tools instead)'
+    )
     if src == 'slog':
         parser.add_argument(
             '--frontend',
@@ -172,6 +177,9 @@ def get_data(src, dst, args):
             if not file.exists():
                 raise FileNotFoundError(file)
             data.setdefault('files', []).append(file)
+        data.setdefault('volumes', set()).add(Path('/') / file.parts[1])
+    data['volumes'] = list(data['volumes'])
+    data['docker'] = not args.no_docker
     return data
 
 
@@ -228,8 +236,9 @@ def run_tool(content, odir, filename):
 
 def hdlconv(src, dst):
     """HDL conversion entry-point"""
-    check_docker()
     args = get_args(src, dst)
+    if not args.no_docker:
+        check_docker()
     if args.filename is None:
         args.filename = args.top.lower()
         args.filename += '.vhdl' if dst == 'vhdl' else '.v'

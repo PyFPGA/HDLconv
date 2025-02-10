@@ -5,11 +5,25 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        pyver: ['3.8', '3.9', '3.10', '3.11', '3.12']
     runs-on: ubuntu-latest
+    name: ${{ matrix.pyver }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Check Install
-      run: make venv
+    - name: Set up Python ${{ matrix.pyver }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.pyver }}
+    - name: Install
+      run: pip install .
     - name: Run tests
       run: make test
+    - name: Upload results on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: results
+        path: tests/results

@@ -12,8 +12,8 @@ It relies on [Docker](https://docs.docker.com/get-docker) and [PyFPGA containers
 # Documentation
 
 ```
-usage: vhdl2vhdl [-h] [-v] [-g GENERIC VALUE] [-a ARCH] [-f FILENAME]
-                 [-o PATH] -t TOPNAME
+usage: vhdl2vhdl [-h] [-v] [--no-docker] [-g GENERIC VALUE] [-a ARCH]
+                 [-f FILENAME] [-o PATH] -t TOPNAME
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to VHDL
@@ -24,6 +24,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --no-docker           do not use Docker (use system tools instead)
   -g GENERIC VALUE, --generic GENERIC VALUE
                         specify a top-level Generic (can be specified multiple
                         times)
@@ -36,8 +37,8 @@ optional arguments:
 ```
 
 ```
-usage: vhdl2vlog [-h] [-v] [--backend TOOL] [-g GENERIC VALUE] [-a ARCH]
-                 [-f FILENAME] [-o PATH] -t TOPNAME
+usage: vhdl2vlog [-h] [-v] [--no-docker] [--backend TOOL] [-g GENERIC VALUE]
+                 [-a ARCH] [-f FILENAME] [-o PATH] -t TOPNAME
                  FILE[,LIBRARY] [FILE[,LIBRARY] ...]
 
 VHDL to Verilog
@@ -48,6 +49,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --no-docker           do not use Docker (use system tools instead)
   --backend TOOL        backend tool [ghdl]
   -g GENERIC VALUE, --generic GENERIC VALUE
                         specify a top-level Generic (can be specified multiple
@@ -61,7 +63,7 @@ optional arguments:
 ```
 
 ```
-usage: slog2vlog [-h] [-v] [--frontend TOOL] [-p PARAM VALUE]
+usage: slog2vlog [-h] [-v] [--no-docker] [--frontend TOOL] [-p PARAM VALUE]
                  [-d DEFINE VALUE] [-i PATH] [-f FILENAME] [-o PATH] -t
                  TOPNAME
                  FILE [FILE ...]
@@ -74,6 +76,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --no-docker           do not use Docker (use system tools instead)
   --frontend TOOL       frontend tool [slang]
   -p PARAM VALUE, --param PARAM VALUE
                         specify a top-level Parameter (can be specified
