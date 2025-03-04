@@ -43,7 +43,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-utilities">Command-line utilities</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts reference</a></li>
 </ul>
@@ -74,13 +77,56 @@
              
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
-<p>HDL converter (between VHDL, SystemVerilog and/or Verilog), based on <a class="reference external" href="https://github.com/ghdl/ghdl">GHDL</a>, <a class="reference external" href="https://github.com/YosysHQ/yosys">Yosys</a>, <a class="reference external" href="https://github.com/chipsalliance/synlig">Synlig</a> and the plugins <a class="reference external" href="https://github.com/ghdl/ghdl-yosys-plugin">ghdl-yosys-plugin</a> and <a class="reference external" href="https://github.com/povik/yosys-slang">yosys-slang</a>.</p>
-<p>It relies on <a class="reference external" href="https://docs.docker.com/get-docker">Docker</a> and <a class="reference external" href="https://github.com/PyFPGA/containers">PyFPGA containers</a>.</p>
+<p>HDL converter provides a set of command-line utilities for converting between VHDL, SystemVerilog, and Verilog.
+Those, gathers files and options, then orchestrates the execution of the following tools - either separately or in combination when required.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">vhdl2vhdl</span></code>: converts from a newer VHDL to VHDL’93 (using <code class="docutils literal notranslate"><span class="pre">ghdl</span></code>).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vhdl2vlog</span></code>: converts from VHDL to Verilog (backends: <code class="docutils literal notranslate"><span class="pre">ghdl</span></code> or <code class="docutils literal notranslate"><span class="pre">yosys</span></code>).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">slog2vlog</span></code>: converts from SystemVerilog to Verilog (frontends: <code class="docutils literal notranslate"><span class="pre">slang</span></code>, <code class="docutils literal notranslate"><span class="pre">synlig</span></code> or <code class="docutils literal notranslate"><span class="pre">yosys</span></code>).</p></li>
+<li><p><a class="reference external" href="https://github.com/ghdl/ghdl">GHDL</a></p></li>
+<li><p><a class="reference external" href="https://github.com/YosysHQ/yosys">Yosys</a></p></li>
+<li><p><a class="reference external" href="https://github.com/chipsalliance/synlig">Synlig</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ghdl/ghdl-yosys-plugin">ghdl-yosys-plugin</a></p></li>
+<li><p><a class="reference external" href="https://github.com/povik/yosys-slang">yosys-slang</a></p></li>
 </ul>
+<p>To avoid the need to install multiple tools, it relies on <a class="reference external" href="https://docs.docker.com/get-docker">Docker</a> and <a class="reference external" href="https://github.com/PyFPGA/containers">PyFPGA containers</a>.</p>
+<section id="command-line-utilities">
+<h2>Command-line utilities<a class="headerlink" href="#command-line-utilities" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">vhdl2vhdl</span></code>: converts from a newer VHDL to VHDL’93.</dt><dd><ul>
+<li><p>Solved using <code class="docutils literal notranslate"><span class="pre">ghdl</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">vhdl2vlog</span></code>: converts from VHDL to Verilog.</dt><dd><ul>
+<li><p>This has two alternatives:</p></li>
+<li><p>Purely <code class="docutils literal notranslate"><span class="pre">ghdl</span></code> (default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ghdl-yosys-plugin</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">slog2vlog</span></code>: converts from SystemVerilog to Verilog.</dt><dd><ul>
+<li><dl class="simple">
+<dt>This has three alternatives:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend (default).</p></li>
+<li><p>Purely <code class="docutils literal notranslate"><span class="pre">synlig</span></code> (based on <code class="docutils literal notranslate"><span class="pre">Surelog</span></code> and <code class="docutils literal notranslate"><span class="pre">yosys</span></code>).</p></li>
+<li><p>Purely <code class="docutils literal notranslate"><span class="pre">yosys</span></code> (simpler SV support, but could be sufficient in some cases).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Multiple alternatives are provided so you can try different options if one does not work.</p>
+</div>
+</section>
 </section>
 
 
