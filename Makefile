@@ -5,7 +5,7 @@
 all: docs lint test
 
 docs:
-	bash docgen.sh
+	cd docs; make html
 
 lint:
 	pycodestyle hdlconv
@@ -17,5 +17,7 @@ test:
 
 clean:
 	py3clean .
+	rm -fr docs/build
 	rm -fr .pytest_cache
+	rm -fr `find . -name results`
 	rm -fr `find . -name __pycache__`
