@@ -55,7 +55,7 @@ The output directory and basename for the resulting files can be specified as fo
 Advanced
 --------
 
-When the input files are VHDL, libraries can be specified by adding a semicolon after the file path:"
+When the input files are VHDL, libraries can be specified by adding a semicolon after the file path:
 
 .. code-block:: bash
 
