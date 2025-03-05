@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2023 HDLconv Project
+# Copyright (C) 2023-2025 HDLconv Project
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #

@@ -1,4 +1,4 @@
 {% if docker %}
 CONTAINER="ghcr.io/pyfpga/synthesis"
-DOCKER="docker run --rm{% for volume in volumes %} -v {{ volume }}:{{ volume }}{% endfor %} -w $PWD --user $(id -u):$(id -g) $CONTAINER"
+DOCKER="docker run --rm{% for volume in volumes %} -v {{ volume }}:{{ volume }}{% endfor %} -v $PWD:$PWD -w $PWD --user $(id -u):$(id -g) $CONTAINER"
 {% endif %}
