@@ -84,3 +84,8 @@ cp hdl/vhdl/top.vhdl /tmp
 python3 ../hdlconv/vhdl2vhdl.py --filename convD.vhdl \
   --generic FREQ 10000000 --generic SECS 1 --arch Arch --top Top \
   hdl/vhdl/blink.vhdl,blink_lib hdl/vhdl/blink_pkg.vhdl,blink_lib /tmp/top.vhdl
+
+HDLCONVDIR=$PWD/..
+
+cd /tmp && python3 $HDLCONVDIR/hdlconv/vhdl2vhdl.py --filename convE.vhdl \
+  --top Counter $HDLCONVDIR/tests/hdl/vhdl/counter.vhdl
