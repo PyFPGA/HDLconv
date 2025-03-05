@@ -98,25 +98,18 @@ Those, gathers files and options, then orchestrates the execution of the followi
 </dl>
 </li>
 <li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">vhdl2vlog</span></code>: converts from VHDL to Verilog.</dt><dd><ul>
-<li><p>This has two alternatives:</p></li>
-<li><p>Purely <code class="docutils literal notranslate"><span class="pre">ghdl</span></code> (default).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ghdl-yosys-plugin</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend.</p></li>
+<dt><code class="docutils literal notranslate"><span class="pre">vhdl2vlog</span></code>: converts from VHDL to Verilog. This has two alternatives:</dt><dd><ul>
+<li><p>Purely <code class="docutils literal notranslate"><span class="pre">ghdl</span></code> (<strong>default</strong>).</p></li>
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">ghdl-yosys-plugin</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">slog2vlog</span></code>: converts from SystemVerilog to Verilog.</dt><dd><ul>
-<li><dl class="simple">
-<dt>This has three alternatives:</dt><dd><ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend (default).</p></li>
+<dt><code class="docutils literal notranslate"><span class="pre">slog2vlog</span></code>: converts from SystemVerilog to Verilog. This has three alternatives:</dt><dd><ul>
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code> as frontend and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> as backend (<strong>default</strong>).</p></li>
 <li><p>Purely <code class="docutils literal notranslate"><span class="pre">synlig</span></code> (based on <code class="docutils literal notranslate"><span class="pre">Surelog</span></code> and <code class="docutils literal notranslate"><span class="pre">yosys</span></code>).</p></li>
 <li><p>Purely <code class="docutils literal notranslate"><span class="pre">yosys</span></code> (simpler SV support, but could be sufficient in some cases).</p></li>
-</ul>
-</dd>
-</dl>
-</li>
 </ul>
 </dd>
 </dl>

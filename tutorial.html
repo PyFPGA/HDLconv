@@ -44,7 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic">Basic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced">Advanced</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts reference</a></li>
 </ul>
 
@@ -74,7 +80,83 @@
              
   <section id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
-<p>Coming soon.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>HDLconv can be installed from PyPi with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>hdlconv
+</pre></div>
+</div>
+<p>Docker should be installed and able to run as a normal user.
+Instructions for Linux <a class="reference external" href="https://docs.docker.com/desktop/setup/install/linux">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>HDLconv relies on containers that are based on Linux systems.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Do you prefer to use tools installed on your system instead? Use the <code class="docutils literal notranslate"><span class="pre">--no-docker</span></code> option.</p>
+</div>
+</section>
+<section id="basic">
+<h2>Basic<a class="headerlink" href="#basic" title="Link to this heading"></a></h2>
+<p>Mandatory arguments are the name of the top-level module/entity and at least one HDL file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vhdl2vhdl<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.vhdl
+vhdl2vlog<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.vhdl
+slog2vlog<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.sv
+</pre></div>
+</div>
+<p>Any of these commands create the <code class="docutils literal notranslate"><span class="pre">results</span></code> directory, containing three files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">counter.log</span></code>: contains <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code> and <code class="docutils literal notranslate"><span class="pre">STDERR</span></code> messages from the underlying tool, mainly useful for debugging errors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">counter.sh</span></code>: the bash script executed under the hood.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">counter.v[hdl]</span></code>: the resulting converted HDL file.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The basename of the resulting file is, by default, the top-level name in lowercase.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Are HDLconv options not enough for you? You can always manually customize and run the resulting bash script ;-)</p>
+</div>
+<p>The output directory and basename for the resulting files can be specified as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vhdl2vhdl<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>--odir<span class="w"> </span>newdir<span class="w"> </span>--filename<span class="w"> </span>newfile.vhdl<span class="w"> </span>counter.vhdl
+</pre></div>
+</div>
+</section>
+<section id="advanced">
+<h2>Advanced<a class="headerlink" href="#advanced" title="Link to this heading"></a></h2>
+<p>When the input files are VHDL, libraries can be specified by adding a semicolon after the file path:”</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vhdl2vhdl<span class="w"> </span>-top<span class="w"> </span>Top<span class="w"> </span>blink.vhdl,blink_lib<span class="w"> </span>blink_pkg.vhdl,blink_lib<span class="w"> </span>top.vhdl
+</pre></div>
+</div>
+<p>While generics values and the desired architecture are specified as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vhdl2vlog<span class="w"> </span>--generic<span class="w"> </span>FREQ<span class="w"> </span><span class="m">10000000</span><span class="w"> </span>--generic<span class="w"> </span>SECS<span class="w"> </span><span class="m">1</span><span class="w"> </span>--arch<span class="w"> </span>Arch<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.vhdl
+</pre></div>
+</div>
+<p>For SystemVerilog inputs, you can specify parameters values, defines, and directories to be included:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>slog2vlog<span class="w"> </span>--param<span class="w"> </span>FREQ<span class="w"> </span><span class="m">10000000</span><span class="w"> </span>--param<span class="w"> </span>SECS<span class="w"> </span><span class="m">1</span><span class="w"> </span>--define<span class="w"> </span>DEFINE1<span class="w"> </span><span class="m">1</span><span class="w"> </span>--define<span class="w"> </span>DEFINE2<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--include<span class="w"> </span>hdl/slog/include1<span class="w"> </span>--include<span class="w"> </span>hdl/slog/include2<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.sv
+</pre></div>
+</div>
+</section>
+<section id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">vhdl2vhdl</span></code> script is solved using only <code class="docutils literal notranslate"><span class="pre">ghdl</span></code>, but others provide more than one alternative, where frontend or backend tools are modified.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">vhdl2vlog</span></code> uses only <code class="docutils literal notranslate"><span class="pre">ghdl</span></code>, but the combination of <code class="docutils literal notranslate"><span class="pre">ghdl-yosys-plugin</span></code> and <code class="docutils literal notranslate"><span class="pre">yosys</span></code> can be used instead, specifying the desired backend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vhdl2vlog<span class="w"> </span>--backend<span class="w"> </span>yosys<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.vhdl
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">slog2vlog</span></code> uses the combination of <code class="docutils literal notranslate"><span class="pre">yosys-slang</span></code> and <code class="docutils literal notranslate"><span class="pre">yosys</span></code>, referred to as <code class="docutils literal notranslate"><span class="pre">slang</span></code> for simplicity, but an alternative frontend can be specified.
+One alternative is to use <code class="docutils literal notranslate"><span class="pre">synlig</span></code>, a synthesizer based on <code class="docutils literal notranslate"><span class="pre">surelog</span></code> and <code class="docutils literal notranslate"><span class="pre">yosys</span></code>, as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>slog2vlog<span class="w"> </span>--frontend<span class="w"> </span>synlig<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.sv
+</pre></div>
+</div>
+<p>The other option is to simply use <code class="docutils literal notranslate"><span class="pre">yosys</span></code>, which has simpler SystemVerilog support but could be sufficient in some cases:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>slog2vlog<span class="w"> </span>--frontend<span class="w"> </span>yosys<span class="w"> </span>--top<span class="w"> </span>Counter<span class="w"> </span>counter.sv
+</pre></div>
+</div>
+</section>
 </section>
 
 
